@@ -34,6 +34,6 @@ public class onMessage extends ListenerAdapter {
     }
 
     public boolean haspermission(User user, ICommand iCommand) {
-        
+
     }
 }
