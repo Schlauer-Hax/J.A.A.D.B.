@@ -1,7 +1,7 @@
 package de.hax.jaadb.core.caching;
 
-import de.hax.jaadb.core.database.Database;
-import net.dv8tion.jda.core.entities.Member;
+import de.hax.jaadb.core.Database;
+import net.dv8tion.jda.core.JDA;
 
 import java.util.ArrayList;
 
@@ -58,5 +58,14 @@ public class Caching {
             }
         }
         return null;
+    }
+
+    public Caching read(JDA jda) {
+        database.readCache(this, jda);
+        return this;
+    }
+
+    public Database getDatabase() {
+        return database;
     }
 }
