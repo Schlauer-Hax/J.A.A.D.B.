@@ -5,6 +5,9 @@ import net.dv8tion.jda.core.JDA;
 
 import java.util.ArrayList;
 
+import static de.hax.jaadb.JAADB.log;
+import static java.lang.String.format;
+
 public class Caching {
 
     private ArrayList<Discord_member> discord_members;
@@ -60,8 +63,17 @@ public class Caching {
         return null;
     }
 
+    public Caching update() {
+        log(this).debug("Updating DB...");
+        database.updateDB(this);
+        log(this).debug("Updated DB!");
+        return this;
+    }
+
     public Caching read(JDA jda) {
+        log(this).debug(format("Reading Cache... Shard ID: %s", jda.getShardInfo().getShardId()));
         database.readCache(this, jda);
+        log(this).debug(format("Read Cache! Shard ID: %s", jda.getShardInfo().getShardId()));
         return this;
     }
 

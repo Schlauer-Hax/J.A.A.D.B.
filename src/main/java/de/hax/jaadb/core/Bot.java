@@ -20,6 +20,7 @@ public class Bot {
     private ShardManager shardManager;
     private ArrayList<ICommand> commands;
     private Caching caching;
+    private Config config;
 
     public Bot(ShardManager shardManager) {
         this.shardManager = shardManager;
@@ -43,5 +44,13 @@ public class Bot {
 
     public void setCaching(Caching caching) {
         this.caching = caching;
+    }
+
+    public Config getConfig() {
+        return config;
+    }
+
+    public void setConfig(Config config) {
+        this.config = config;
     }
 }

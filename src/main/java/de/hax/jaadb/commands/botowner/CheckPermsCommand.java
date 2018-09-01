@@ -23,6 +23,6 @@ public class CheckPermsCommand implements ICommand {
 
     @Override
     public String[] labels() {
-        return new String[0];
+        return new String[]{"checkperms"};
     }
 }

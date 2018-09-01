@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 
 public class Config {
 
-    JSONObject jsonObject;
+    private JSONObject jsonObject;
 
     public Config read(String file) {
         try {
@@ -18,7 +18,7 @@ public class Config {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return this;
     }
 
     public JSONObject getJsonObject() {
