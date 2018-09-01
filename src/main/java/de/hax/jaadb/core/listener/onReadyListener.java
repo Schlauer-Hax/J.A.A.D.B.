@@ -9,11 +9,11 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class onReady extends ListenerAdapter {
+public class onReadyListener extends ListenerAdapter {
 
     private Bot bot;
 
-    public onReady(Bot bot) {
+    public onReadyListener(Bot bot) {
         this.bot = bot;
     }
 
