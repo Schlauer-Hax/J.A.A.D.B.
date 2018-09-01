@@ -64,16 +64,16 @@ public class Caching {
     }
 
     public Caching update() {
-        log(this).debug("Updating DB...");
+        log(this).info("Updating DB...");
         database.updateDB(this);
-        log(this).debug("Updated DB!");
+        log(this).info("Updated DB!");
         return this;
     }
 
     public Caching read(JDA jda) {
-        log(this).debug(format("Reading Cache... Shard ID: %s", jda.getShardInfo().getShardId()));
+        log(this).info(format("Reading Cache... Shard ID: %s", jda.getShardInfo().getShardId()));
         database.readCache(this, jda);
-        log(this).debug(format("Read Cache! Shard ID: %s", jda.getShardInfo().getShardId()));
+        log(this).info(format("Read Cache! Shard ID: %s", jda.getShardInfo().getShardId()));
         return this;
     }
 

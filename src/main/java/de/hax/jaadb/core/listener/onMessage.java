@@ -6,6 +6,7 @@ import de.hax.jaadb.core.caching.Discord_member;
 import de.hax.jaadb.core.caching.Discord_user;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class onMessage extends ListenerAdapter {
@@ -44,7 +45,7 @@ public class onMessage extends ListenerAdapter {
                                 }
                                 break;
                             case "guildadmin":
-                                if (discord_member.getPermlvl()!=3) return;
+                                if (discord_member.getPermlvl()!=3 || event.getGuild().getOwner().getUser().getIdLong() != event.getAuthor().getIdLong()) return;
                                 break;
                             case "mod":
                                 if (discord_member.getPermlvl()!=2) return;

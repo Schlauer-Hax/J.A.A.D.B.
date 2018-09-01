@@ -76,6 +76,7 @@ public class Database {
         }
         for (Discord_member member : caching.getDiscord_members()) {
             try (var preparedstatement = connection.prepareStatement(
+
                     format("UPDATE `discord_member` SET `guild_id`='%s',`user_id`='%s',`perm_lvl`='%s' WHERE `guild_id`='%s' AND `user_id`='%s'",
                             member.getGuild_id(), member.getUser_id(), member.getPermlvl(), member.getGuild_id(), member.getUser_id()
                     ))) {
@@ -98,19 +99,20 @@ public class Database {
 
     public void readCache(Caching caching, JDA jda) {
         for (Guild guild : jda.getGuilds()) {
-            try (var preparedstatement = connection.prepareStatement("SELECT * FROM Discord_guild WHERE guild_id=" + guild.getIdLong() + ";")) {
+            try (var preparedstatement = connection.prepareStatement("SELECT * FROM discord_guild WHERE guild_id=" + guild.getIdLong() + ";")) {
                 var resultset = preparedstatement.executeQuery();
-                resultset.next();
-                Discord_guild discord_guild = new Discord_guild(guild.getIdLong());
-                caching.getDiscord_guilds().add(discord_guild);
+                if (resultset.next()) {
+                    Discord_guild discord_guild = new Discord_guild(guild.getIdLong());
+                    caching.getDiscord_guilds().add(discord_guild);
 
-                for (Member member : guild.getMembers()) {
-                    try (var preparedstatement2 = connection.prepareStatement("SELECT * FROM `Discord_member` WHERE `guild_id`="+guild.getIdLong()+" AND `user_id`="+member.getUser().getId())) {
-                        var resultset2 = preparedstatement2.executeQuery();
-                        resultset2.next();
-                        caching.getDiscord_members().add(new Discord_member(resultset2.getLong("guild_id"), resultset2.getLong("user_id"), discord_guild, resultset2.getInt("perm_lvl")));
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                    for (Member member : guild.getMembers()) {
+                        try (var preparedstatement2 = connection.prepareStatement("SELECT * FROM `discord_member` WHERE `guild_id`=" + guild.getIdLong() + " AND `user_id`=" + member.getUser().getId())) {
+                            var resultset2 = preparedstatement2.executeQuery();
+                            if (resultset2.next())
+                                caching.getDiscord_members().add(new Discord_member(resultset2.getLong("guild_id"), resultset2.getLong("user_id"), discord_guild, resultset2.getInt("perm_lvl")));
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             } catch (SQLException e) {
@@ -119,10 +121,10 @@ public class Database {
         }
 
         for (User user:jda.getUsers()) {
-            try (var preparedstatement = connection.prepareStatement("SELECT * FROM `Discord_user` WHERE `user_id`="+user.getId())) {
+            try (var preparedstatement = connection.prepareStatement("SELECT * FROM `discord_user` WHERE `user_id`="+user.getId())) {
                 var resultset = preparedstatement.executeQuery();
-                resultset.next();
-                caching.getDiscord_users().add(new Discord_user(user.getIdLong()));
+                if (resultset.next())
+                    caching.getDiscord_users().add(new Discord_user(user.getIdLong()));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
